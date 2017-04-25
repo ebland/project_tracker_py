@@ -101,6 +101,24 @@ def assign_grade(github, title, grade):
     print "Succesfully added grade: %d to %s for %s" % (grade, title, github)
 
 
+def add_project(title, description, max_grade):
+    """Add project with description and max grade."""
+
+    QUERY = """
+            INSERT INTO projects (title, description, max_grade)
+                VALUES (:title, :description, :max_grade)
+            """
+
+    db.session.execute(QUERY, {'title': title,
+                               'description': description,
+                               'max_grade': max_grade})
+
+    db.session.commit()
+
+    print "Succesfully added %s with %s description with %d max grade." % (title,
+            description, max_grade)
+
+
 def handle_input():
     """Main loop.
 
@@ -131,6 +149,6 @@ if __name__ == "__main__":
     app = Flask(__name__)
     connect_to_db(app)
 
-    handle_input()
+#    handle_input()
 
     db.session.close()
